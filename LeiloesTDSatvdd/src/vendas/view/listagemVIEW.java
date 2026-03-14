@@ -25,8 +25,9 @@ public class listagemVIEW extends javax.swing.JFrame {
         btnConsultar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         id_produto_venda = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtIdVenda = new javax.swing.JTextField();
         btnVender = new javax.swing.JButton();
+        btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,9 +56,9 @@ public class listagemVIEW extends javax.swing.JFrame {
 
         id_produto_venda.setText("Id do produto para vender:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtIdVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtIdVendaActionPerformed(evt);
             }
         });
 
@@ -65,6 +66,13 @@ public class listagemVIEW extends javax.swing.JFrame {
         btnVender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVenderActionPerformed(evt);
+            }
+        });
+
+        btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
             }
         });
 
@@ -77,7 +85,9 @@ public class listagemVIEW extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(312, 312, 312)
+                            .addGap(62, 62, 62)
+                            .addComponent(btnVoltar)
+                            .addGap(175, 175, 175)
                             .addComponent(btnConsultar))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(71, 71, 71)
@@ -86,10 +96,10 @@ public class listagemVIEW extends javax.swing.JFrame {
                         .addGap(32, 32, 32)
                         .addComponent(id_produto_venda)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtIdVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnVender)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,13 +111,15 @@ public class listagemVIEW extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnConsultar)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnConsultar)
+                            .addComponent(btnVoltar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                         .addComponent(id_produto_venda))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnVender))))
                 .addGap(25, 25, 25))
         );
@@ -121,25 +133,41 @@ public class listagemVIEW extends javax.swing.JFrame {
 }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtIdVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdVendaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtIdVendaActionPerformed
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-                                             
-    String id = id_produto_venda.getText();
+                                         
+    String id = txtIdVenda.getText().trim(); 
+
     
-    if (!id.isEmpty()) { // Verifica se o usuário não deixou vazio
-        ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.venderProduto(Integer.parseInt(id)); // Chama o método do DAO
-        
-        listarProdutos(); // Atualiza a tabela na hora para mostrar o novo status!
-        id_produto_venda.setText(""); // Limpa o campo
-    } else {
+    if (id.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Informe o ID do produto primeiro.");
+        return; 
     }
 
+    
+    try {
+        ProdutosDAO produtodao = new ProdutosDAO();
+        produtodao.venderProduto(Integer.parseInt(id));
+        
+        listarProdutos(); 
+        txtIdVenda.setText(""); 
+        
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Digite apenas números no ID!");
+    }
+
+
     }//GEN-LAST:event_btnVenderActionPerformed
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        cadastroVIEW cadastro = new cadastroVIEW();
+    cadastro.setVisible(true);
+        dispose();
+        
+    }//GEN-LAST:event_btnVoltarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -168,11 +196,12 @@ public class listagemVIEW extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnVender;
+    private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel id_produto_venda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtIdVenda;
     // End of variables declaration//GEN-END:variables
 
     private void listarProdutos() {
@@ -196,3 +225,4 @@ public class listagemVIEW extends javax.swing.JFrame {
         }
     }
 }
+
