@@ -78,4 +78,26 @@ String sql = "SELECT * FROM produtos";
         JOptionPane.showMessageDialog(null, "Erro ao vender produto: " + e.getMessage());
     }
 }
+     public ArrayList<ProdutosDTO> listarProdutosVendidos() {
+    String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
+    conn = new conectaDAO().connectDB();
+    ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+    
+    try {
+        prep = conn.prepareStatement(sql);
+        ResultSet rs = prep.executeQuery();
+        
+        while (rs.next()) {
+            ProdutosDTO produto = new ProdutosDTO();
+            produto.setId(rs.getInt("id"));
+            produto.setNome(rs.getString("nome"));
+            produto.setValor(rs.getInt("valor"));
+            produto.setStatus(rs.getString("status"));
+            listagem.add(produto);
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao filtrar vendas: " + e.getMessage());
+    }
+    return listagem;
+}
 }
