@@ -1,7 +1,6 @@
 package vendas.view;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vendas.dao.ProdutosDAO;
 import vendas.dto.ProdutosDTO;
@@ -13,7 +12,7 @@ public class vendasVIEW extends javax.swing.JFrame {
 
     public vendasVIEW() {
         initComponents();
-        listarProdutosVendidos();
+        listarProdutos();
     }
 
     @SuppressWarnings("unchecked")
@@ -85,6 +84,8 @@ public class vendasVIEW extends javax.swing.JFrame {
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
 {                                             
     dispose();
+    listagemVIEW listagem = new listagemVIEW();
+    listagem.setVisible(true);
 }
     }//GEN-LAST:event_btnVoltarActionPerformed
 
@@ -140,7 +141,4 @@ public class vendasVIEW extends javax.swing.JFrame {
         }
     }
 
-    private void listarProdutosVendidos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
